@@ -34,7 +34,18 @@ def log_event(event_type, username):
         timestamp = datetime.now().isoformat()
         f.write(f"{timestamp} - {event_type} - {username}\n")
 
+def log_event_CB(event_type, username, age):
+    with open(f"data_{age}.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")
 
+def log_event_TD(event_type, username):
+    with open("data.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")
+        
 def load_data():
     for round_num in range(1, 5):
         filename = f"submissions_round_{round_num}.json"
@@ -103,8 +114,9 @@ def submit():
     
     submissions[round_num].append(submission)
     save_data(round_num)
+    
     username=session.get('username')
-    log_event(f"Submit Cobot score by {username} score is =>", str(submission.to_dict()))
+    log_event_CB(f"Submit Cobot score by {username} score is =>", str(submission.to_dict()), age_group)
     #################################
     if round_num == 1:
         return redirect('/')
@@ -163,9 +175,10 @@ def delete_user(round_num):
             deleted = True
             continue
         new_list.append(s)
-        
+    
+    age = data.get("age_group")  
     username=session.get('username')
-    log_event(f"Delete Cobot score by {username} score is =>", str(data))
+    log_event_CB(f"Delete Cobot score by {username} score is =>", str(data), age)
     submissions[round_num] = new_list
     save_data(round_num)
     return jsonify({"success": True})
