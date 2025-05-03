@@ -103,6 +103,8 @@ def submit():
     
     submissions[round_num].append(submission)
     save_data(round_num)
+    username=session.get('username')
+    log_event(f"Submit Cobot score by {username} score is =>", str(submission.to_dict()))
     #################################
     if round_num == 1:
         return redirect('/')
@@ -161,7 +163,9 @@ def delete_user(round_num):
             deleted = True
             continue
         new_list.append(s)
-
+        
+    username=session.get('username')
+    log_event(f"Delete Cobot score by {username} score is =>", str(data))
     submissions[round_num] = new_list
     save_data(round_num)
     return jsonify({"success": True})
@@ -304,6 +308,8 @@ def submit_digital():
     submission = SubmissionDigitalTwin(user, cp1, cp2, finish, score, time_taken, box_pass)
     digital_submissions.append(submission)
     save_digital_data()
+    username=session.get('username')
+    log_event(f"Submit Digital score by {username} score is =>", str(submission.to_dict()))
     return redirect('/digital_twin')
 
 
@@ -352,9 +358,11 @@ def delete_digital():
             deleted = True
             continue
         new_list.append(s)
-
+  
     digital_submissions = new_list
     save_digital_data()
+    username=session.get('username')
+    log_event(f"delete Digital score by {username} score is =>", f"{str(data)}")
     return jsonify({"success": True})
 
 ########### New dashboard #############
