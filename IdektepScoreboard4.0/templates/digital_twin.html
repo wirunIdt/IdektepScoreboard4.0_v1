@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Twin - Steary UI Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 220px;
+            height: 100%;
+            background-color: #2a2a3d;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h2 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #3a3a4d;
+        }
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+        .card {
+            background-color: #2a2a3d;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: none;
+            background-color: #3a3a4d;
+            color: #ffffff;
+        }
+        button {
+            background-color: #4e4e6d;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5e5e7d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #ffffff;
+            text-align: center;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background-color: #3a3a4d;
+            font-weight: 600;
+        }
+        td button {
+            background-color:rgb(2, 2, 2);
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        td button:hover {
+            background-color: #e60000;
+        }
+        .action-cell {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🏆 Idektep</h2>
+    <a href="/">Dashboard(7-9)</a>
+    <a href="/dashboard_10_12">Dashboard(10-12)</a>
+    <a href="/dashboard_13_15">Dashboard(13-15)</a>
+    <a href="/dashboard_16_17">Dashboard(16-17)</a>
+    <a href="/scores">All Scores</a>
+    <a href="/scores_digital">Digital Twin Scores</a>
+    <a href="#" onclick="exportData1()">Export CB Score</a>
+    <a href="#" onclick="exportData2()">Export DT Score</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main">
+    <div class="card">
+        <h2>Submit Digital Twin Score</h2>
+        <form action="/submit_digital" method="post">
+            <input type="text" name="user" placeholder="Team ID" required>
+            <input type="number" name="cp1" placeholder="Checkpoint 1 (0 or 1)" min="0" max="1" required>
+            <input type="number" name="cp2" placeholder="Checkpoint 2 (0 or 1)" min="0" max="1" required>
+            <input type="number" name="finish" placeholder="Finish (0 or 1)" min="0" max="1" required>
+            <input type="number" name="box_pass" placeholder="Box Passed (0-36)" min="0" max="36" required>
+            <input type="number" step="0.01" name="time" placeholder="Time Taken (seconds)" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Current Submissions</h2>
+        <div id="digitalTwinTableContainer"></div>
+    </div>
+</div>
+
+<script>
+
+    function exporData1() {
+        fetch('/export')
+            .then(res => res.json())
+            .then(data => alert(data.message));
+    }
+function exportData2() {
+    fetch('/export_digital')
+        .then(res => res.json())
+        .then(data => alert(data.message));
+}
+
+
+function loadDigitalTwinTable() {
+    fetch('/rank_digital')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('digitalTwinTableContainer');
+            var html = `<table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>CP1</th>
+                        <th>CP2</th>
+                        <th>Finish</th>
+                        <th>Score</th>
+                        <th>Box Passed</th>
+                        <th>Time Taken</th>
+                        <th>Action</th>
+                    </tr>
+                </thead><tbody>`;
+
+            data.forEach((item, index) => {
+               html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.user}</td>
+                        <td>${item.checkpoint1}</td>
+                        <td>${item.checkpoint2}</td>
+                        <td>${item.finish}</td>
+                        <td>${item.score}</td>
+                        <td>${item.box_pass}</td>
+                        <td>${item.time_taken}</td>
+                        <td class="action-cell"><button onclick="deleteDigital('${item.user}', ${item.time_taken}, ${item.score})">❌</button></td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML= html;
+        });
+}
+
+function deleteDigital(user, time_taken, score) {
+    fetch('/delete_digital', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user, time_taken, score })
+    })
+    .then(res => res.json())
+    .then(() => loadDigitalTwinTable());
+}
+
+window.onload = loadDigitalTwinTable;
+</script>
+
+</body>
+</html>

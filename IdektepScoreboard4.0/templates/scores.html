@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Scores</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0d0d1a, #1a1a2e);
+      color: #f8f8ff;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .table-container {
+      background-color: #1c1c3a;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      padding: 30px;
+      width: 90%;
+      max-width: 1000px;
+    }
+    h2, h3 {
+      color: #c299ff;
+      margin-bottom: 10px;
+    }
+    label {
+      font-size: 16px;
+      color: #d6d6f0;
+    }
+    select, button {
+      margin-left: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    select {
+      background-color: #2d2d50;
+      color: #eee;
+    }
+    button {
+      background: #8a2be2;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #a36bff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+    }
+    th {
+      background-color: #292952;
+      color: #ffffff;
+    }
+    tr:nth-child(even) {
+      background-color: #1e1e3f;
+    }
+    tr:nth-child(odd) {
+      background-color: #242449;
+    }
+    td {
+      color: #dcdcff;
+    }
+  </style>
+</head>
+<body>
+  <div class="table-container">
+    <button onclick="back()">← Back</button>
+    <h2>🏆 Rankings</h2>
+    <label hid>
+      Select Round:
+      <select id="roundSelector">
+        <option value="">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </label>
+    <label>
+      Select Age Group:
+      <select id="ageGroupSelector">
+        <option value="">All</option>
+        <option value="7-9">7-9</option>
+        <option value="10-12">10-12</option>
+        <option value="13-15">13-15</option>
+        <option value="16-17">16-17</option>
+      </select>
+    </label>
+    <label>
+      Select Type:
+      <select id="typeSelector">
+        <option value="">All</option>
+        <option value="single">🧍 Single</option>
+        <option value="team">👥 Team</option>
+      </select>
+    </label>
+    <button onclick="applyFilters()">Filter</button>
+    <button onclick="resetFilters()">Show All</button>
+
+    <div id="rankTableContainer"></div>
+  </div>
+
+  <script>
+    function applyFilters() {
+      const round = document.getElementById('roundSelector').value;
+      const ageGroup = document.getElementById('ageGroupSelector').value;
+      const compType = document.getElementById('typeSelector').value;
+
+      const params = new URLSearchParams();
+      if (round) params.append("round", round);
+      if (ageGroup) params.append("age_group", ageGroup);
+      if (compType) params.append("type", compType);
+
+      window.location.href = `/scores?${params.toString()}`;
+    }
+
+    function resetFilters() {
+      window.location.href = '/scores';
+    }
+
+    function back() {
+      window.location.href = '/';
+    }
+
+    const scores = {{ scores|tojson }};
+    const container = document.getElementById("rankTableContainer");
+    const groupedData = {};
+
+    scores.forEach(entry => {
+      const ageGroup = entry.age_group || "Unknown";
+      const type = entry.type || "unknown";
+      if (!groupedData[ageGroup]) groupedData[ageGroup] = {};
+      if (!groupedData[ageGroup][type]) groupedData[ageGroup][type] = [];
+      groupedData[ageGroup][type].push(entry);
+    });
+
+    for (const [ageGroup, types] of Object.entries(groupedData)) {
+      container.innerHTML += `<h2>Age Group: ${ageGroup}</h2>`;
+      for (const [type, entries] of Object.entries(types)) {
+        const typeLabel = type === 'single' ? '🧍 Single' : type === 'team' ? '👥 Team' : type;
+        let html = `<h3>Type: ${typeLabel}</h3>
+                    <table><thead>
+                      <tr><th>Rank</th><th>User</th><th>Checkpoint1</th><th>Checkpoint2</th><th>Deductions</th><th>Extra</th><th>Finish</th><th>Score</th><th>Time</th></tr>
+                    </thead><tbody>`;
+        entries.forEach((item, index) => {
+          html += `<tr>
+            <td>${index + 1}</td>
+            <td>${item.user}</td>
+            <td>${item.checkpoint1}</td>
+            <td>${item.checkpoint2}</td>
+            <td>${item.deduction}</td>
+            <td>${item.exp}</td>
+            <td>${item.finish}</td>
+            <td>${item.score}</td>
+            <td>${item.time_taken}</td>
+            
+          </tr>`;
+        });
+        html += `</tbody></table><br>`;
+        container.innerHTML += html;
+      }
+    }
+  </script>
+</body>
+</html>

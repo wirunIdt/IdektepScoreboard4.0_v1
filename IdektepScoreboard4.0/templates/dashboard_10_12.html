@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Idektep Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0f0f1b;
+            color: #f1e6ff;
+            display: flex;
+        }
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background-color: #1a1a2e;
+            padding: 20px;
+            position: fixed;
+        }
+        .sidebar h2 {
+            color: #b892ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sidebar nav a {
+            display: block;
+            padding: 10px 15px;
+            color: #f1e6ff;
+            text-decoration: none;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .sidebar nav a:hover {
+            background-color: #2d2a4a;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .dashboard, .form-container, .table-container, .chart-container, .info-cards {
+            background: #1a1a2e;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            text-align: center;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #f8dfff;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background-color: #2d2a4a;
+            color: #f1e6ff;
+        }
+
+        button {
+            background-color: #7c3aed;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6a0dad;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2a254a;
+        }
+
+        .info-cards {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .info-box {
+            flex: 1;
+            min-width: 220px;
+            background-color: #2a254a;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        canvas {
+            background-color: #2d2a4a;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>🏆 Idektep</h2>
+        <nav>
+            <a href="/">Dashboard(7-9)</a>
+            <a href="/dashboard_10_12">Dashboard(10-12)</a>
+            <a href="/dashboard_13_15">Dashboard(13-15)</a>
+            <a href="/dashboard_16_17">Dashboard(16-17)</a>
+            <a href="/scores">All Scores</a>
+            <a href="/digital_twin">Digital Twin</a>
+            <a href="/scores_digital">Digital Twin Scores</a>
+            <a href="#" onclick="exportData1()">Export CB Score</a>
+            <a href="#" onclick="exportData2()">Export DT Score</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </div>
+
+    <div class="main">
+        {% if username %}
+            <div style="text-align: right; margin-bottom: 10px; color: #ccc;">
+                👤 Logged in as: <strong>{{ username }}</strong>
+            </div>
+        {% endif %}
+        <div class="info-cards">
+            <div class="info-box">
+                <h3>⏰ Time</h3>
+                <p id="currentTime">--:--:--</p>
+            </div>
+            <div class="info-box">
+                <h3>🌦 Weather</h3>
+                <p id="weatherInfo">Loading...</p>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>Age Competition</h3>
+                <p>10-12</p>
+            </div>
+            <div class="card">
+                <h3>Credit</h3>
+                <p>Dev By Wirun Earmvorakul</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form action="/submit" method="post">
+                <label>Type:
+                    <select name="type" required>
+                        <option value="team">Team</option>
+                        <option value="single">Single</option>
+                    </select>
+                </label><br>
+                <label>Team ID: <input type="text" name="user" required></label><br>
+                <label>Checkpoint1: <input type="number" name="checkpoint1"  required></label><br>
+                <label>Checkpoint2: <input type="number" name="checkpoint2"  required></label><br>
+                <label>Decoration: <input type="number" name="decoration"  required></label><br>
+                <label hidden>Extra point: <input type="number" name="exp" ></label><br>
+                <label hidden>Finish point: <input type="number" name="finish" ></label><br>
+                <label>Time Taken (seconds): <input type="number" step="0.01" name="time" required></label><br>
+                <label>Select Round:
+                    <select name="round">
+                        <option value="2">2</option>
+                    </select>
+                </label><br>
+                <label hidden>Age Group:
+                    <select name="age_group" required>
+                        <option value="10-12">10-12</option>
+                    </select>
+                </label><br>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2>Rankings</h2>
+            <label>Select Round:
+                <select id="roundSelector">
+                    <option value="2">2</option>
+                </select>
+                <button onclick="loadRankings()">Show Rankings</button>
+            </label>
+
+            <div id="rankTableContainer"></div>
+        </div>
+
+        <div class="chart-container">
+            <h2>Score Chart</h2>
+            <canvas id="scoreChart" height="100"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function loadWeather() {
+            const apiKey = 'ff7bf2d7c8c3f9e16349eb01e3138baa'; // Replace with your key
+            const city = 'Bangkok'; // Or your city
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    const desc = data.weather[0].description;
+                    const temp = data.main.temp;
+                    document.getElementById('weatherInfo').textContent = `${city}: ${desc}, ${temp}°C`;
+                })
+                .catch(() => {
+                    document.getElementById('weatherInfo').textContent = 'Weather unavailable';
+                });
+        }
+        loadWeather();
+
+        function loadRankings() {
+            const round = document.getElementById('roundSelector').value;
+            fetch(`/rank/${round}`)
+                .then(res => res.json())
+                .then(data => {
+                    const grouped = {};
+                    data.forEach(entry => {
+                        const ageGroup = entry.age_group || 'Unknown';
+                        const compType = entry.comp_type || 'unknown';
+
+                        if (!grouped[ageGroup]) grouped[ageGroup] = {};
+                        if (!grouped[ageGroup][compType]) grouped[ageGroup][compType] = [];
+
+                        grouped[ageGroup][compType].push(entry);
+                    });
+
+                    const container = document.getElementById('rankTableContainer');
+                    container.innerHTML = '';
+
+                    Object.entries(grouped).forEach(([ageGroup, types]) => {
+                        container.innerHTML += `<h2>Age Group: ${ageGroup}</h2>`;
+                        Object.entries(types).forEach(([type, entries]) => {
+                            const label = type === 'single' ? '🧍 Single' : type === 'team' ? '👥 Team' : type;
+                            let html = `<h3>Type: ${label}</h3>
+                                        <table><thead>
+                                            <tr><th>Rank</th><th>User</th><th>Checkpoint1</th><th>Checkpoint2</th><th>Deductions</th><th>Extra</th><th>Finish</th><th>Score</th><th>Time</th><th>Action</th></tr>
+                                        </thead><tbody>`;
+                            entries.forEach((item, index) => {
+                                html += `<tr>
+                                    <td>${index + 1}</td>
+                                    <td>${item.user}</td>
+                                    <td>${item.checkpoint1}</td>
+                                    <td>${item.checkpoint2}</td>
+                                    <td>${item.deduction}</td>
+                                    <td>${item.exp}</td>
+                                    <td>${item.finish}</td>
+                                    <td>${item.score}</td>
+                                    <td>${item.time_taken}</td>
+
+                                    <td><button onclick="deleteUser(${round}, '${item.user}', ${item.time_taken}, ${item.score}, ${item.deduction}, ${item.checkpoint1}, ${item.checkpoint2}, ${item.exp}, ${item.finish})">
+                                        ❌
+                                        </button>
+                                    </td>
+                                </tr>`;
+                            });
+                            html += `</tbody></table><br>`;
+                            container.innerHTML += html;
+                        });
+                    });
+
+                    const firstTypeGroup = Object.values(grouped)[0];
+                    const firstEntries = Object.values(firstTypeGroup || {})[0] || [];
+                    const labels = firstEntries.map(e => e.user);
+                    const scores = firstEntries.map(e => e.score);
+                    renderChart(labels, scores);
+                });
+        }
+
+        function deleteUser(round, user, time, score, decoration, checkpoint1, checkpoint2, exp, finish) {
+            fetch(`/delete/${round}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user: user,
+                    time_taken: time,
+                    score: score,
+                    checkpoint1: checkpoint1,
+                    checkpoint2: checkpoint2,
+                    deduction: decoration,
+                    exp : exp,
+                    finish : finish  // 💥
+                })
+            })
+            .then(res => res.json())
+            .then(() => loadRankings());
+        }
+        
+        
+        function exportData1() {
+            fetch('/export')
+                .then(res => res.json())
+                .then(data => alert(data.message));
+        }
+
+        function exportData2() {
+            fetch('/export_digital')
+                .then(res => res.json())
+                .then(data => alert(data.message));
+        }
+        
+        window.onload = () => loadRankings();
+    </script>
+</body>
+</html>
