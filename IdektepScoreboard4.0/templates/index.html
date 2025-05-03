@@ -173,6 +173,8 @@
 
         <div class="form-container">
             <form action="/submit" method="post">
+                <label hidden>Extra point: <input type="number" name="exp"  ></label><br>
+                <label hidden>Finish point: <input type="number" name="finish" ></label><br>
                 <label>Type:
                     <select name="type" required>
                         <option value="team">Team</option>
@@ -185,22 +187,14 @@
                 <label>Decoration: <input type="number" name="decoration"  required></label><br>
                 <label>Time Taken (seconds): <input type="number" step="0.01" name="time" required></label><br>
                 <button type="submit">Submit</button>
-                <label hidden>Extra point: <input type="number" name="exp"  ></label><br>
-                <label hidden>Finish point: <input type="number" name="finish" ></label><br>
                 <label hidden>Select Round:
                     <select name="round">
                         <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
                     </select>
                 </label><br>
                 <label hidden>Age Group:
                     <select name="age_group" required>
                         <option value="7-9">7-9</option>
-                        <option value="10-12">10-12</option>
-                        <option value="13-15">13-15</option>
-                        <option value="16-17">16-17</option>
                     </select>
                 </label><br>
                 

@@ -63,12 +63,13 @@ def submit():
     checkpoint1 = int(request.form['checkpoint1'])
     checkpoint2 = int(request.form['checkpoint2'])
     deduction = int(request.form['decoration'])
-    exp = int(request.form['exp'])
-    finish = int(request.form['finish'])
+    exp =  int(request.form['exp']) if request.form['exp'] and request.form['exp'].isdigit() else 0
+    finish =  int(request.form['finish']) if request.form['finish'] and request.form['finish'].isdigit() else 0
     time_taken = float(request.form['time'])
     round_num = int(request.form['round'])
     age_group = request.form['age_group']
     comp_type = request.form['type']
+
 
     for submission32 in submissions[round_num]:
         if submission32.user == user and submission32.comp_type == comp_type :
