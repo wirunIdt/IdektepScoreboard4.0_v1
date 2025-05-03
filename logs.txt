@@ -19,3 +19,4 @@
 2025-05-03T16:23:08.632248 - Submit score by Jaochai score is => - {'user': 'G01', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 500, 'time_taken': 120.0, 'box_pass': 30}
 2025-05-03T16:23:36.705320 - Submit score by Jaochai score is => - {'user': 'G01', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 500, 'time_taken': 120.0, 'box_pass': 30}
 2025-05-03T16:23:37.726103 - delete score by Jaochai score is => - {'user': 'G01', 'time_taken': 120, 'score': 500}
+2025-05-03T16:27:55.678333 - Login - Jaochai
