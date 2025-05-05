@@ -15,7 +15,7 @@ TOTAL_TASKS = 5
 POINTS_PER_TASK = 20
 USER_FILE = 'users.json'
 
-#------------------- User --------------------------------
+#------------------- User Data --------------------------------
 
 def load_users():
     if os.path.exists(USER_FILE):
