@@ -15,6 +15,7 @@ TOTAL_TASKS = 5
 POINTS_PER_TASK = 20
 USER_FILE = 'users.json'
 
+#------------------- User --------------------------------
 
 def load_users():
     if os.path.exists(USER_FILE):
@@ -22,11 +23,11 @@ def load_users():
             return json.load(f)
     return {}
 
-
 def save_users(users):
     with open(USER_FILE, 'w') as f:
         json.dump(users, f)
 
+#------------------- Log event --------------------------------
 
 def log_event(event_type, username):
     with open("logs.txt", "a") as f:
@@ -45,7 +46,6 @@ def log_event_Digital(event_type, username):
         from datetime import datetime
         timestamp = datetime.now().isoformat()
         f.write(f"{timestamp} - {event_type} - {username}\n")
-###########################Log event for delete age############################
 
 def log_event_7_9(event_type, username):
     with open(f"delete data_7_9.txt", "a") as f:
@@ -76,11 +76,8 @@ def log_event_Digital_delete(event_type, username):
         from datetime import datetime
         timestamp = datetime.now().isoformat()
         f.write(f"{timestamp} - {event_type} - {username}\n")        
-###########################Log event for delete age############################        
-        
-
-        
-#######################The End of Log event #####################################        
+                
+#------------------ Function of Data --------------------------     
 def load_data():
     for round_num in range(1, 5):
         filename = f"submissions_round_{round_num}.json"
@@ -95,7 +92,9 @@ def save_data(round_num):
     with open(filename, 'w') as f:
         json.dump([s.to_dict() for s in submissions[round_num]], f)
 
-#################################### Main BackEnd ########################################
+# ----------------------- Main backend and link to html page ------------------------------
+
+# ----------------------- Cobot backend manage Zone -------------------------
 @app.route('/')
 def index():
     if not session.get('logged_in'):
@@ -290,7 +289,7 @@ def scores():
                            selected_age_group=selected_age_group,
                            selected_type=selected_type)
 
-
+# ------------------------- Login and Logout Function ------------------------
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -330,13 +329,17 @@ def logout():
         log_event("Logout", username)
     return render_template('logout.html', message=f"{username} has been logged out due to inactivity.")
 
-# ---------------- Digital Twin ----------------
+
+# ---------------- Digital Twin backend Zone ----------------
 
 digital_submissions = []
+
+# -------------------- Digital twin data manage zone ---------------
 
 def save_digital_data():
     with open('submissions_digital.json', 'w') as f:
         json.dump([s.to_dict() for s in digital_submissions], f)
+
 
 def load_digital_data():
     global digital_submissions
@@ -345,12 +348,14 @@ def load_digital_data():
             data = json.load(f)
             digital_submissions = [SubmissionDigitalTwin.from_dict(entry) for entry in data]
 
+# ------------- Manage Rank and System Zone ------------------------
 
 @app.route('/digital_twin')
 def digital_twin():
     if not session.get('logged_in'):
         return redirect('/login')
     return render_template('digital_twin.html', username=session.get('username'))
+
 
 @app.route('/submit_digital', methods=['POST'])
 def submit_digital():
@@ -372,11 +377,11 @@ def submit_digital():
     return redirect('/digital_twin')
 
 
-
 @app.route('/scores_digital')
 def scores_digital():
     ranked = sorted(digital_submissions, key=lambda s: (-s.score, s.time_taken))
     return render_template('scores_digital.html', scores=[s.to_dict() for s in ranked], username=session.get('username'))
+
 
 @app.route('/export_digital')
 def export_digital():
@@ -394,10 +399,12 @@ def export_digital():
     df.to_excel("digital_twin_submissions.xlsx", index=False)
     return jsonify({"success": True, "message": "Exported to digital_twin_submissions.xlsx"})
 
+
 @app.route('/rank_digital')
 def rank_digital():
     ranked = sorted(digital_submissions, key=lambda s: (-s.score, s.time_taken))
     return jsonify([s.to_dict() for s in ranked])
+
 
 @app.route('/delete_digital', methods=['POST'])
 def delete_digital():
@@ -424,7 +431,8 @@ def delete_digital():
     log_event_Digital_delete(f"delete Digital score by {username} score is =>", f"{str(data)}")
     return jsonify({"success": True})
 
-########### New dashboard #############
+
+# ------------------ New Cobot Dashboard ---------------------------
 
 @app.route('/dashboard_10_12')
 def dashboard_10_12():
@@ -444,7 +452,7 @@ def dashboard_16_17():
         return redirect('/login')
     return render_template('dashboard_16_17.html', username=session.get('username'))
 
-########### end dashboard return #############
+# ---------------------- Main to Run --------------------------
 
 if __name__ == '__main__':
     load_data()
