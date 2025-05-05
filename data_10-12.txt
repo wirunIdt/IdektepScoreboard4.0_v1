@@ -1,1 +1,0 @@
-2025-05-05T19:30:17.497981 - Submit Cobot score by Jaochai score is => - {'user': 'G06', 'score': 345, 'time_taken': 111.0, 'deduction': 10, 'checkpoint1': 10, 'checkpoint2': 10, 'exp': 0, 'finish': 0, 'age_group': '10-12', 'comp_type': 'team'}

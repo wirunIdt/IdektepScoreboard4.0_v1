@@ -1,1 +1,0 @@
-2025-05-05T19:30:33.673255 - Delete Cobot score by Jaochaiscore is => - {'user': 'G06', 'time_taken': 111, 'score': 345, 'checkpoint1': 10, 'checkpoint2': 10, 'deduction': 10, 'exp': 0, 'finish': 0}
