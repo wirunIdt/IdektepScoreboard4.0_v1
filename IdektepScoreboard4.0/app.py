@@ -40,12 +40,47 @@ def log_event_CB(event_type, username, age):
         timestamp = datetime.now().isoformat()
         f.write(f"{timestamp} - {event_type} - {username}\n")
 
-def log_event_TD(event_type, username):
-    with open("data.txt", "a") as f:
+def log_event_Digital(event_type, username):
+    with open("data_digital.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")
+###########################Log event for delete age############################
+
+def log_event_7_9(event_type, username):
+    with open(f"delete data_7_9.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")
+
+def log_event_10_12(event_type, username):
+    with open(f"delete data_10_12.txt", "a") as f:
         from datetime import datetime
         timestamp = datetime.now().isoformat()
         f.write(f"{timestamp} - {event_type} - {username}\n")
         
+def log_event_13_15(event_type, username):
+    with open(f"delete data_13_15.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")
+        
+def log_event_16_17(event_type, username):
+    with open(f"delete data_16_17.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")
+
+def log_event_Digital_delete(event_type, username):
+    with open("delete data_digital.txt", "a") as f:
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp} - {event_type} - {username}\n")        
+###########################Log event for delete age############################        
+        
+
+        
+#######################The End of Log event #####################################        
 def load_data():
     for round_num in range(1, 5):
         filename = f"submissions_round_{round_num}.json"
@@ -60,7 +95,7 @@ def save_data(round_num):
     with open(filename, 'w') as f:
         json.dump([s.to_dict() for s in submissions[round_num]], f)
 
-
+#################################### Main BackEnd ########################################
 @app.route('/')
 def index():
     if not session.get('logged_in'):
@@ -163,7 +198,8 @@ def delete_user(round_num):
     user = data.get("user")
     time_taken = float(data.get("time_taken"))
     score = int(data.get("score"))
-
+    age_group = data.get("age_group")
+    
     print(f"🔍 Matching for: user={user}, time={time_taken}, score={score}")
 
     new_list = []
@@ -176,9 +212,19 @@ def delete_user(round_num):
             continue
         new_list.append(s)
     
-    age = data.get("age_group")  
+      
     username=session.get('username')
-    log_event_CB(f"Delete Cobot score by {username} score is =>", str(data), age)
+    if round_num == 1:
+        log_event_7_9(f"Delete Cobot score by {username} score is =>", str(data))
+    elif round_num == 2:
+        log_event_10_12(f"Delete Cobot score by {username} score is =>", str(data))
+    elif round_num == 3:
+        log_event_13_15(f"Delete Cobot score by {username} score is =>", str(data))
+    elif round_num == 4:
+        log_event_16_17(f"Delete Cobot score by {username} score is =>", str(data))
+    
+    
+    
     submissions[round_num] = new_list
     save_data(round_num)
     return jsonify({"success": True})
@@ -322,7 +368,7 @@ def submit_digital():
     digital_submissions.append(submission)
     save_digital_data()
     username=session.get('username')
-    log_event(f"Submit Digital score by {username} score is =>", str(submission.to_dict()))
+    log_event_Digital(f"Submit Digital score by {username} score is =>", str(submission.to_dict()))
     return redirect('/digital_twin')
 
 
@@ -375,7 +421,7 @@ def delete_digital():
     digital_submissions = new_list
     save_digital_data()
     username=session.get('username')
-    log_event(f"delete Digital score by {username} score is =>", f"{str(data)}")
+    log_event_Digital_delete(f"delete Digital score by {username} score is =>", f"{str(data)}")
     return jsonify({"success": True})
 
 ########### New dashboard #############

@@ -1,0 +1,1 @@
+2025-05-05T19:33:27.259956 - delete Digital score by Jaochai score is => - {'user': 'G01', 'time_taken': 120, 'score': 500}

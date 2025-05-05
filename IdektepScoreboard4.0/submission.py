@@ -32,5 +32,5 @@ class Submission:
             data['checkpoint1'], data['checkpoint2'], 
             data['deduction'], data['exp'], data['finish'], 
             data['score'],data['time_taken'],
-            data.get('age_group'), data.get('comp_type')
+            data['age_group'], data['comp_type']
         )
