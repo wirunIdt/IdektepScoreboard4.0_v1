@@ -13,7 +13,7 @@
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
             background-color: #0f0f1b;
-            color: #f1e6ff;
+            color : #ffb900;
             display: flex;
         }
         .sidebar {
@@ -39,6 +39,7 @@
         }
         .sidebar nav a:hover {
             background-color: #2d2a4a;
+            box-shadow: 0 4px 12px #6e5afd;
         }
 
         .main {
@@ -52,7 +53,7 @@
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px #6e5afd;
         }
 
         .dashboard {
@@ -71,6 +72,7 @@
         }
 
         input, select, button {
+            width: 100%;
             padding: 10px;
             margin: 5px 0;
             border-radius: 6px;
@@ -103,6 +105,7 @@
 
         th {
             background-color: #2a254a;
+            color : #ffb900;
         }
 
         .info-cards {
@@ -117,12 +120,12 @@
             min-width: 220px;
             background-color: #2a254a;
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 16px;
         }
 
         canvas {
             background-color: #2d2a4a;
-            border-radius: 8px;
+            border-radius: 16px;
         }
     </style>
 </head>
@@ -181,11 +184,11 @@
                         <option value="single">Single</option>
                     </select>
                 </label><br>
-                <label>Team ID: <input type="text" name="user" required></label><br>
-                <label>Checkpoint1: <input type="number" name="checkpoint1"  required></label><br>
-                <label>Checkpoint2: <input type="number" name="checkpoint2"  required></label><br>
-                <label>Decoration: <input type="number" name="decoration"  required></label><br>
-                <label>Time Taken (seconds): <input type="number" step="0.01" name="time" required></label><br>
+                <label>TeamID : <input type="text" name="user" placeholder="Team ID" required></label><br>
+                <label>Checkpoint1 :  <input type="number" name="checkpoint1" placeholder="Reload กรุณากรอกจำนวนครั้งที่ทำได้" required></label><br>
+                <label>Checkpoint2 : <input type="number" name="checkpoint2" placeholder="Ball กรุณากรอกจำนวนครั้งที่ทำได้" required></label><br>
+                <label>Decoration  : <input type="number" name="decoration" placeholder="กรุณากรอกจำนวนครั้งที่ชนกำแพง" required></label><br>
+                <label>Time Taken  : <input type="number" step="1" name="time"placeholder="กรุณากรอกเป็น seconds" required></label><br>
                 <button type="submit">Submit</button>
                 <label hidden>Select Round:
                     <select name="round">
@@ -207,8 +210,6 @@
             <label hidden>Select Round:
                 <select id="roundSelector">
                     <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
                 </select>
                 <button onclick="loadRankings()">Show Rankings</button>
             </label>
@@ -266,7 +267,7 @@
                             const label = type === 'single' ? '🧍 Single' : type === 'team' ? '👥 Team' : type;
                             let html = `<h3>Type: ${label}</h3>
                                         <table><thead>
-                                            <tr><th>Rank</th><th>User</th><th>Checkpoint1</th><th>Checkpoint2</th><th>Deductions</th><th>Extra</th><th>Finish</th><th>Score</th><th>Time</th><th>Action</th></tr>
+                                            <tr><th>Rank</th><th>User</th><th>Checkpoint1</th><th>Checkpoint2</th><th>Deductions</th><th>Score</th><th>Time</th><th>Action</th></tr>
                                         </thead><tbody>`;
                             entries.forEach((item, index) => {
                                 html += `<tr>
@@ -275,12 +276,10 @@
                                     <td>${item.checkpoint1}</td>
                                     <td>${item.checkpoint2}</td>
                                     <td>${item.deduction}</td>
-                                    <td>${item.exp}</td>
-                                    <td>${item.finish}</td>
                                     <td>${item.score}</td>
                                     <td>${item.time_taken}</td>
 
-                                    <td><button onclick="deleteUser(${round}, '${item.user}', ${item.time_taken}, ${item.score}, ${item.deduction}, ${item.checkpoint1}, ${item.checkpoint2}, ${item.exp}, ${item.finish})">
+                                    <td><button onclick="deleteUser(${round}, '${item.user}', ${item.time_taken}, ${item.score}, ${item.checkpoint1}, ${item.checkpoint2})">
                                         ❌
                                         </button>
                                     </td>

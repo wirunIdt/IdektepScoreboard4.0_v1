@@ -1,0 +1,11 @@
+2025-05-06T11:15:57.999733 - Delete Cobot score by Jaochai score is => - {'user': 'G06', 'time_taken': 111, 'score': 340, 'checkpoint1': 10, 'checkpoint2': 10, 'deduction': 10, 'exp': 0, 'finish': 0}
+2025-05-06T11:16:13.102400 - Delete Cobot score by Jaochai score is => - {'user': 'G06', 'time_taken': 111, 'score': 340, 'checkpoint1': 10, 'checkpoint2': 10, 'deduction': 10, 'exp': 0, 'finish': 0}
+2025-05-06T11:16:20.388508 - Delete Cobot score by Jaochai score is => - {'user': 'G06', 'time_taken': 111, 'score': 340, 'checkpoint1': 10, 'checkpoint2': 10, 'deduction': 10, 'exp': 0, 'finish': 0}
+2025-05-06T12:09:50.967896 - Delete Cobot score by Jaochai score is => - {'user': 'G01', 'time_taken': 120, 'score': 165, 'checkpoint1': 5, 'checkpoint2': 5, 'deduction': 10, 'exp': 0, 'finish': 0}
+2025-05-06T12:14:47.575330 - Delete Cobot score by Jaochai score is => - {'user': 'G03', 'time_taken': 111, 'score': 175, 'checkpoint1': 5, 'deduction': 5}
+2025-05-06T12:30:57.402825 - Delete Cobot score by Jaochai score is => - {'user': 'G03', 'time_taken': 111, 'score': 175, 'checkpoint1': 5, 'deduction': 5}
+2025-05-06T12:30:58.084863 - Delete Cobot score by Jaochai score is => - {'user': 'G02', 'time_taken': 120, 'score': 175, 'checkpoint1': 5, 'deduction': 5}
+2025-05-06T12:30:58.464806 - Delete Cobot score by Jaochai score is => - {'user': 'G01', 'time_taken': 120, 'score': 165, 'checkpoint1': 5, 'deduction': 5}
+2025-05-06T12:30:59.051781 - Delete Cobot score by Jaochai score is => - {'user': 'G01', 'time_taken': 120, 'score': 165, 'checkpoint1': 5, 'deduction': 5}
+2025-05-06T12:37:29.040731 - Delete Cobot score by Jaochai score is => - {'user': 'G03', 'time_taken': 111, 'score': 175, 'checkpoint1': 5, 'deduction': 5}
+2025-05-06T12:37:30.209295 - Delete Cobot score by Jaochai score is => - {'user': 'G04', 'time_taken': 111, 'score': 155, 'checkpoint1': 5, 'deduction': 5}

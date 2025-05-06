@@ -1,0 +1,1 @@
+2025-05-06T12:40:06.789380 - Submit Digital score by Jaochai score is => - {'user': 'G01', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 500, 'time_taken': 120.0, 'box_pass': 30}

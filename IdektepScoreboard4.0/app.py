@@ -107,7 +107,7 @@ def submit():
     user = request.form['user']
     checkpoint1 = int(request.form['checkpoint1'])
     checkpoint2 = int(request.form['checkpoint2'])
-    deduction = int(request.form['decoration'])
+    deduction = int(request.form['decoration']) if request.form['decoration'] and request.form['decoration'].isdigit() else 0
     exp =  int(request.form['exp']) if request.form['exp'] and request.form['exp'].isdigit() else 0
     finish =  int(request.form['finish']) if request.form['finish'] and request.form['finish'].isdigit() else 0
     time_taken = float(request.form['time'])
@@ -129,21 +129,33 @@ def submit():
             
     # คำนวณคะแนนตามรุ่นอายุ
     if age_group == "7-9":
-        exp = 0
-        finish = 0
+        exp = "None"
+        finish = "None"
         score = checkpoint1 * 10 + checkpoint2 * 25 - deduction * 10
+        checkpoint1 = checkpoint1 * 10
+        checkpoint2 = checkpoint2 * 25
+        deduction = deduction * -10
     elif age_group == "10-12":
-        exp = 0
-        finish = 0
-        score = checkpoint1 * 10 + checkpoint2 * 25 - deduction * 5
+        exp = "None"
+        finish = "None"
+        deduction = "None"
+        score = checkpoint1 * 10 + checkpoint2 * 25 
+        checkpoint1 = checkpoint1 * 10
+        checkpoint2 = checkpoint2 * 25
     elif age_group == "13-15":
+        deduction = "None"
         score = checkpoint1 * 100 + checkpoint2 * 50 + exp + finish
+        checkpoint1 = checkpoint1 * 100
+        checkpoint2 = checkpoint2 * 50
     elif age_group == "16-17":
+        deduction = "None"
         score = checkpoint1 * 100 + checkpoint2 * 50 + exp + finish
+        checkpoint1 = checkpoint1 * 100
+        checkpoint2 = checkpoint2 * 50
     else:
         score = 0
 
-    deduction = deduction * 10  # ใช้สำหรับแสดงหักคะแนน
+     # ใช้สำหรับแสดงหักคะแนน
     submission = Submission(user, checkpoint1, checkpoint2 , deduction, exp, finish, score, time_taken, age_group, comp_type)#(round, user, time_taken, score, deduction, checkpoint1, checkpoint2)
     
     submissions[round_num].append(submission)
