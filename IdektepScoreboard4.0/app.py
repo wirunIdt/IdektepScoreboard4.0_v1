@@ -292,7 +292,7 @@ def scores():
                 "type": s.comp_type
             })
 
-    all_scores.sort(key=lambda x: (x['round'], -x['score']))  # ✅ ใช้ key ที่ตรงกับ JSON
+    all_scores.sort(key=lambda x: (x['round'],-x['score'],x['time_taken']))  # ✅ ใช้ key ที่ตรงกับ JSON
     return render_template('scores.html',
                            scores=all_scores,
                            logged_in=session.get('logged_in', False),
