@@ -25,7 +25,7 @@
       max-width: 1000px;
     }
     h2, h3 {
-      color: #a36bff;
+      color:rgb(255, 255, 255);
       margin-bottom: 10px;
     }
     label {
@@ -74,7 +74,7 @@
       background-color: #242449;
     }
     td {
-      color: #dcdcff;
+      color:rgb(255, 255, 255);
     }
   </style>
 </head>
@@ -156,7 +156,7 @@
         const typeLabel = type === 'single' ? '🧍 Single' : type === 'team' ? '👥 Team' : type;
         let html = `<h3>Type: ${typeLabel}</h3>
                     <table><thead>
-                      <tr><th>Rank</th><th>User</th><th>Checkpoint1</th><th>Checkpoint2</th><th>Deductions</th><th>Extra</th><th>Finish</th><th>Score</th><th>Time</th></tr>
+                      <tr><th>Rank</th><th>User</th><th>Checkpoint1</th><th>Checkpoint2</th><th>Decoration</th><th>Extra</th><th>Finish</th><th>Score</th><th>Time</th></tr>
                     </thead><tbody>`;
         entries.forEach((item, index) => {
           html += `<tr>

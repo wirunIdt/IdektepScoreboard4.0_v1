@@ -1,1 +1,13 @@
-{"P_Nong": "idt00", "Jaochai":"idt01","P_Bam": "idt02", "P_Bank":"idt03","P_Pae": "idt04", "P_Tae":"idt05", "P_Por":"idt06", "P_Gun":"idt07"}
+{"P_Nong": "idt00", 
+"Jaochai":"idt01",
+"P_Bam": "idt02", 
+"P_Bank":"idt03",
+"P_Pae": "idt04", 
+"P_Tae":"idt05", 
+"P_Por":"idt06", 
+"P_Gun":"idt07", 
+"P_Khem":"idt08",
+"P_Win":"idt09",
+"P_Eve":"idt10",
+"Display":"idt11"
+}

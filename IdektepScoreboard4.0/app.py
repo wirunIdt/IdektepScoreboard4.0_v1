@@ -8,7 +8,7 @@ from submission_digital import SubmissionDigitalTwin
 
 app = Flask(__name__)
 app.secret_key = 'your_super_secret_key'
-app.permanent_session_lifetime = timedelta(minutes=10)
+app.permanent_session_lifetime = timedelta(hours=10)
 
 submissions = {1: [], 2: [], 3: [], 4: []}
 TOTAL_TASKS = 5
