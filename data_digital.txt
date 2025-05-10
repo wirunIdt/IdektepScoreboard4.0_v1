@@ -1,6 +1,0 @@
-2025-05-06T12:40:06.789380 - Submit Digital score by Jaochai score is => - {'user': 'G01', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 500, 'time_taken': 120.0, 'box_pass': 30}
-2025-05-06T16:08:55.057775 - Submit Digital score by P_Bank score is => - {'user': 'Banktest', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 730, 'time_taken': 22.0, 'box_pass': 7}
-2025-05-06T16:18:09.209909 - Submit Digital score by P_Bank score is => - {'user': 'G01', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 730, 'time_taken': 22.0, 'box_pass': 7}
-2025-05-06T16:18:54.457805 - Submit Digital score by P_Bank score is => - {'user': 'G04', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 730, 'time_taken': 10.0, 'box_pass': 7}
-2025-05-06T16:20:11.056667 - Submit Digital score by P_Bam score is => - {'user': 'test', 'checkpoint1': 1, 'checkpoint2': 1, 'finish': 1, 'score': 440, 'time_taken': 120.1, 'box_pass': 36}
-2025-05-07T10:18:05.226489 - Submit Digital score by P_Bam score is => - {'user': 'A', 'checkpoint1': 1, 'checkpoint2': 0, 'finish': 1, 'score': 340, 'time_taken': 12.0, 'box_pass': 36}
