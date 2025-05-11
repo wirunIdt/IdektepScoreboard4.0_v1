@@ -131,10 +131,10 @@ def submit():
     if age_group == "7-9":
         exp = "None"
         finish = "None"
-        score = checkpoint1 * 10 + checkpoint2 * 25 - deduction * 10
+        score = checkpoint1 * 10 + checkpoint2 * 25 - deduction * 5
         checkpoint1 = checkpoint1 * 10
         checkpoint2 = checkpoint2 * 25
-        deduction = deduction * -10
+        deduction = deduction * -5
     elif age_group == "10-12":
         exp = "None"
         finish = "None"
