@@ -155,7 +155,7 @@ def submit():
     else:
         score = 0
 
-     # ใช้สำหรับแสดงหักคะแนน
+    # ใช้สำหรับแสดงหักคะแนน
     submission = Submission(user, checkpoint1, checkpoint2 , deduction, exp, finish, score, time_taken, age_group, comp_type)#(round, user, time_taken, score, deduction, checkpoint1, checkpoint2)
     
     submissions[round_num].append(submission)
